@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap&subset=latin-ext"
+        rel="stylesheet">
+
+
+    <title>Tracker</title>
+</head>
+
+<body>
+
+
+    <div id="order-tracker-container">
+        <h1>Track your order</h1>
+
+        <ul id="order-tracker">
+            <li class="step step1">
+                <i class="fa fa-circle"></i>
+                <i class="process-icon fas fa-shopping-cart"></i>
+                <p style="position:absolute; margin: 45px 0 0 -12px;">Order</p>
+            </li>
+            <li class="step step2">
+                <i class="fa fa-circle"></i>
+                <i class="process-icon fas fa-tasks"></i>
+                <p style="position:absolute; margin: 45px 0 0 -30px;">Processing</p>
+            </li>
+            <li class="step step3 undone">
+                <i class="fa fa-circle"></i>
+                <i class="process-icon fas fa-gift"></i>
+                <p style="position:absolute; margin: 45px 0 0 -25px;">Packaging</p>
+            </li>
+            <li class="step step4 undone">
+                <i class="fa fa-circle"></i>
+                <i class="process-icon far fa-calendar-check"></i>
+                <p style="position:absolute; margin: 45px 0 0 -35px;">Appointment</p>
+            </li>
+            <li class="step step5 undone">
+                <i class="fa fa-circle"></i>
+                <i class="process-icon fas fa-shipping-fast"></i>
+                <p style="position:absolute; margin: 45px 0 0 -20px;">Delivery</p>
+            </li>
+        </ul>
+
+        <div class="progressbar bar-background">
+            <div class="progressbar progressed"></div>
+        </div>
+
+        <!-- <ul id="order-tracker">
+                <li class="step step1 done">
+                    Order
+                </li>
+                <li class="step step2 active">
+                    Processing
+                </li>
+                <li class="step step3 undone">
+                    Packaging
+                </li>
+                <li class="step step4 undone">
+                    Appointment
+                </li>
+                <li class="step step5 undone">
+                    Delivery
+                </li>
+            </ul> -->
+    </div>
+
+    <div id="order-tracker-informaion">
+        <div id="current-process-icon"> </div>
+        <div id="current-process-text">
+            <article>
+                Your order is being produced, composed and packaged.
+            </article>
+
+        </div>
+
+
+    </div>
+
+
+
+    <style>
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 300;
+        }
+
+        #order-tracker-informaion {
+            display: block;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #order-tracker-container h1 {
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 400;
+            font-size: 2em;
+            padding-bottom: 40px;
+        }
+
+        #order-tracker-container p {
+            font-weight: 300;
+            color: rgb(180, 179, 179);
+            ;
+        }
+
+        #order-tracker-container .done>p {
+            font-family: 'Open Sans', sans-serif;
+            color: #4ec425;
+            font-weight: 400;
+        }
+
+        #order-tracker-container .active>p {
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 700;
+        }
+
+        .done .fa-circle {
+            color: #4ec425;
+        }
+
+        .done.active .fa-circle {
+            color: #4ec425;
+            transform: scale(4, 4);
+        }
+
+        .done.active .process-icon {
+            transform: scale(2, 2);
+        }
+
+
+        .fa-circle {
+            transform: scale(3, 3);
+            color: rgb(180, 179, 179);
+        }
+
+
+        .process-icon {
+            position: absolute;
+            color: white;
+            transform: scale(1.5, 1.5);
+        }
+
+
+        #order-tracker-container {
+            display: block;
+            max-width: 800px;
+            margin: 10% auto;
+        }
+
+        #order-tracker {
+            display: flex;
+        }
+
+        .step {
+            display: inline-flex;
+            width: 25%;
+        }
+
+        .step5 {
+            width: 0%;
+        }
+
+        .bar-background {
+            background-color: rgb(180, 179, 179);
+            width: 100%;
+            margin-top: -30px;
+            margin-bottom: -20px;
+        }
+
+        .progressed {
+            background-color: #4ec425;
+        }
+
+        .progressbar {
+            height: 10px;
+        }
+
+        .progress0 {
+            width: 5%;
+        }
+
+        .progress1 {
+            width: 30%;
+        }
+
+        .progress2 {
+            width: 55%;
+        }
+
+        .progress3 {
+            width: 75%;
+        }
+
+        .progress4 {
+            width: 100%;
+        }
+    </style>
+
+
+</body>
+
+<script>
+
+var OrderTextContent =  {
+    step1 : "Text about step 1 ",
+    step2: "Text about step 2",
+    step3: "Text about step 3",
+    step4: "Text about step 4",
+    step5: "Text about step 5"
+    };
+
+var orderDate = new Date("1 Nov, 2019");
+var now = new Date();
+var timeDifference = now.getTime() - orderDate.getTime() ;
+var passedDays = Math.floor(timeDifference / (1000 * 3600 * 24));
+
+console.log(passedDays + " days passed since placed order");
+
+if (passedDays < 1) {
+    $(".step1").addClass("done active");
+    $(".progressed").addClass("progress0");
+    $("#current-process-text article").text(OrderTextContent.step1);
+} else if (passedDays >= 1 && passedDays <= 3){
+    $(".step2").addClass("done active");
+    $(".step1").addClass("done");
+    $(".progressed").addClass("progress1");
+    $("#current-process-text article").text(OrderTextContent.step2);
+} else if (passedDays > 3 && passedDays <= 8){
+    $(".step3").addClass("done active");
+    $(".step2").addClass("done");
+    $(".step1").addClass("done");
+    $(".progressed").addClass("progress2");
+    $("#current-process-text article").text(OrderTextContent.step3);
+} else if (passedDays > 8 && passedDays <=10){    
+    $(".step4").addClass("done active");
+    $(".step3").addClass("done");
+    $(".step2").addClass("done");
+    $(".step1").addClass("done");
+    $(".progressed").addClass("progress3");
+    $("#current-process-text article").text(OrderTextContent.step4);
+} else {
+    $(".step").addClass("done");
+    $(".step5").addClass("active");
+    $(".progressed").addClass("progress4");
+    $("#current-process-text article").text(OrderTextContent.step5);
+}
+
+
+
+
+</script>
+
+</html>
