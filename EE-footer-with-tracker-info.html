@@ -381,27 +381,22 @@
             <li class="step step1">
                 <i class="fa fa-circle fa-circle-general"></i>
                 <i class="process-icon fas fa-shopping-cart"></i>
-                <p style="position:absolute; margin: 45px 0 0 -12px;">Order</p>
+                <p style="position:absolute; margin-top: 45px;">Order</p>
             </li>
-            <li class="step step2">
+            <li class="step step2 undone">
                 <i class="fa fa-circle fa-circle-general"></i>
                 <i class="process-icon fas fa-tasks"></i>
-                <p style="position:absolute; margin: 45px 0 0 -30px;">Processing</p>
+                <p style="position:absolute; margin-top: 45px;">Processing</p>
             </li>
             <li class="step step3 undone">
                 <i class="fa fa-circle fa-circle-general"></i>
                 <i class="process-icon fas fa-gift"></i>
-                <p style="position:absolute; margin: 45px 0 0 -25px;">Packaging</p>
+                <p style="position:absolute; margin-top: 45px;">Packaging</p>
             </li>
             <li class="step step4 undone">
                 <i class="fa fa-circle fa-circle-general"></i>
                 <i class="process-icon far fa-calendar-check"></i>
-                <p style="position:absolute; margin: 45px 0 0 -35px;">Appointment</p>
-            </li>
-            <li class="step step5 undone">
-                <i class="fa fa-circle fa-circle-general"></i>
-                <i class="process-icon fas fa-shipping-fast"></i>
-                <p style="position:absolute; margin: 45px 0 0 -20px;">Delivery</p>
+                <p style="position:absolute; margin-top: 45px;">Appointment</p>
             </li>
         </ul>
 
@@ -423,7 +418,6 @@
 
         #order-tracker-informaion {
             display: block;
-            max-width: 800px;
             margin: 0 auto;
             text-align: center;
         }
@@ -433,6 +427,7 @@
             font-family: 'Open Sans', sans-serif;
             font-weight: 400;
             font-size: 2em;
+            margin-bottom: 3rem;
         }
 
         #order-tracker-container p {
@@ -502,22 +497,19 @@
 
         #order-tracker-container {
             display: block;
-            max-width: 95%;
             margin: 30px auto;
             min-height:100px;
         }
 
         #order-tracker {
             display: flex;
+            padding-left: 0;
         }
 
         .step {
             display: inline-flex;
             width: 25%;
-        }
-
-        .step5 {
-            width: 0%;
+            justify-content: center;
         }
 
         .bar-background {
@@ -536,22 +528,18 @@
         }
 
         .progress0 {
-            width: 5%;
+            width: 12%;
         }
 
         .progress1 {
-            width: 30%;
+            width: 37%;
         }
 
         .progress2 {
-            width: 55%;
+            width: 62%;
         }
 
         .progress3 {
-            width: 75%;
-        }
-
-        .progress4 {
             width: 100%;
         }
 
@@ -564,11 +552,34 @@
     `;
 
             var OrderTextContent = {
-                step1: "Text about step 1 ",
-                step2: "Text about step 2",
-                step3: "Text about step 3",
-                step4: "Text about step 4",
-                step5: "Text about step 5"
+                step1: `
+                        Thank you for your order! 
+                        <br>
+                        The order will be processed as soon as the payment has been confirmed*.
+                        <p style="font-style:italic;font-size:12px;">(*Orders done with Klarna Pay Later will be processed immediately).</p>
+                        `,
+                step2: `    
+                        We've received your payment! The delivery time starts now.*<br>
+                        <p style="font-style:italic;font-size:12px;">(*When paying with Klarna you can ignore this e-mail. <br> Your order has been processed immediately and payment is processed via Klarna).</p>
+                        `,
+                step3: `
+                        <p>Your order is being produced, composed and packaged.</p>
+                       `,
+                step4: `
+                        <p>Your order is nearly finished!</p>
+                        <p>The transporter will contact you in the following days to make a delivery appointment.</p><br>
+                        <span style="color:red;"><strong>! Note:</strong> The transporter may call anonymously</span>
+                       `,
+                info:   `
+                        <hr>
+                        <h3>Delivery Time</h3>
+                        <p>Accessories | parts: approx. 3 - 4 work days</p>
+                        <p style="font-style:italic;font-size:12px;">You receive a track & trace code from DHL.</p>
+                        <p>Climbing frames | modules | slides: approx. 7 - 10 work days</p>
+                        <p style="font-style:italic;font-size:12px;">The transporter will get in touch for a delivery appointment when your order is ready for transportation.</p>
+                        <p>Commercial climbing frames: approx. 15 work days</p>
+                        <p style="font-style:italic;font-size:12px;">The transporter will get in touch for a delivery appointment when your order is ready for transportation.</p>
+                        `
             };
 
 
@@ -584,32 +595,28 @@
             if (orderStatus == "Pending") {
                 $(".step1").addClass("done active");
                 $(".progressed").addClass("progress0");
-                $("#current-process-text article").text(OrderTextContent.step1);
+                $("#current-process-text article").html(OrderTextContent.step1 + OrderTextContent.info);
             } else if (orderStatus == "Processing") {
                 $(".step2").addClass("done active");
                 $(".step1").addClass("done");
                 $(".progressed").addClass("progress1");
-                $("#current-process-text article").text(OrderTextContent.step2);
-            } else if ($(".order-status").text("Processing") && passedDays > 3 && passedDays <= 8) {
+                $("#current-process-text article").html(OrderTextContent.step2 + OrderTextContent.info);
+            } else if ($(".order-status").text("Complete") && passedDays >= 3 && passedDays <= 6) {
                 $(".step3").addClass("done active");
                 $(".step2").addClass("done");
                 $(".step1").addClass("done");
                 $(".progressed").addClass("progress2");
-                $("#current-process-text article").text(OrderTextContent.step3);
-            } else if ($(".order-status").text("Processing") && passedDays > 8 && passedDays <= 10) {
+                $("#current-process-text article").html(OrderTextContent.step3 + OrderTextContent.info);
+            } else if ($(".order-status").text("Complete") && passedDays > 6 && passedDays <= 10) {
                 $(".step4").addClass("done active");
                 $(".step3").addClass("done");
                 $(".step2").addClass("done");
                 $(".step1").addClass("done");
                 $(".progressed").addClass("progress3");
-                $("#current-process-text article").text(OrderTextContent.step4);
+                $("#current-process-text article").html(OrderTextContent.step4 + OrderTextContent.info);
             } else {
-                $(".step").addClass("done");
-                $(".step5").addClass("active");
-                $(".progressed").addClass("progress4");
-                $("#current-process-text article").text(OrderTextContent.step5);
+                $("#order-tracker-container").hide();
             }
-
         }
 
 
