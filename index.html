@@ -1,264 +1,164 @@
-<!DOCTYPE html>
-<html lang="en">
+<!-- Order Tracker Script EN Block start -->
+<style>
+    /* Styling for order tracker script */
+    td.col.price {
+        width: auto;
+    }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
-        integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400&display=swap&subset=latin-ext"
-        rel="stylesheet">
+    ul.questions-area {
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
+    ul.questions-area li a,
+    ul.questions-area li a:visited {
+        color: #16a854;
+        text-decoration: none !important;
+    }
 
-    <title>Tracker</title>
-</head>
+    .order-steps-section ul {
+        list-style: none;
+        padding-left: 3px;
+    }
 
-<body>
+    li.o-step span {
+        background: #f5f5f5;
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        text-align: center;
+        font-weight: 600;
+    }
 
+    .fas.fa-check-circle {
+        color: #16a854 !important;
+    }
 
-    <div id="order-tracker-container">
-        <h1>Track your order</h1>
+    section.order-steps-section h3 {
+        margin-top: 0px;
+    }
 
-        <ul id="order-tracker">
-            <li class="step step1">
-                <i class="fa fa-circle"></i>
-                <i class="process-icon fas fa-shopping-cart"></i>
-                <p style="position:absolute; margin: 45px 0 0 -12px;">Order</p>
-            </li>
-            <li class="step step2">
-                <i class="fa fa-circle"></i>
-                <i class="process-icon fas fa-tasks"></i>
-                <p style="position:absolute; margin: 45px 0 0 -30px;">Processing</p>
-            </li>
-            <li class="step step3 undone">
-                <i class="fa fa-circle"></i>
-                <i class="process-icon fas fa-gift"></i>
-                <p style="position:absolute; margin: 45px 0 0 -25px;">Packaging</p>
-            </li>
-            <li class="step step4 undone">
-                <i class="fa fa-circle"></i>
-                <i class="process-icon far fa-calendar-check"></i>
-                <p style="position:absolute; margin: 45px 0 0 -35px;">Appointment</p>
-            </li>
-            <li class="step step5 undone">
-                <i class="fa fa-circle"></i>
-                <i class="process-icon fas fa-shipping-fast"></i>
-                <p style="position:absolute; margin: 45px 0 0 -20px;">Delivery</p>
-            </li>
-        </ul>
-
-        <div class="progressbar bar-background">
-            <div class="progressbar progressed"></div>
-        </div>
-
-        <!-- <ul id="order-tracker">
-                <li class="step step1 done">
-                    Order
-                </li>
-                <li class="step step2 active">
-                    Processing
-                </li>
-                <li class="step step3 undone">
-                    Packaging
-                </li>
-                <li class="step step4 undone">
-                    Appointment
-                </li>
-                <li class="step step5 undone">
-                    Delivery
-                </li>
-            </ul> -->
-    </div>
-
-    <div id="order-tracker-informaion">
-        <div id="current-process-icon"> </div>
-        <div id="current-process-text">
-            <article>
-                Your order is being produced, composed and packaged.
-            </article>
-
-        </div>
-
-
-    </div>
-
-
-
-    <style>
-
-        body {
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 300;
-        }
-
-        #order-tracker-informaion {
-            display: block;
-            max-width: 800px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        #order-tracker-container h1 {
-            text-align: center;
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 400;
-            font-size: 2em;
-            padding-bottom: 40px;
-        }
-
-        #order-tracker-container p {
-            font-weight: 300;
-            color: rgb(180, 179, 179);
-            ;
-        }
-
-        #order-tracker-container .done>p {
-            font-family: 'Open Sans', sans-serif;
-            color: #4ec425;
-            font-weight: 400;
-        }
-
-        #order-tracker-container .active>p {
-            font-family: 'Open Sans', sans-serif;
-            font-weight: 700;
-        }
-
-        .done .fa-circle {
-            color: #4ec425;
-        }
-
-        .done.active .fa-circle {
-            color: #4ec425;
-            transform: scale(4, 4);
-        }
-
-        .done.active .process-icon {
-            transform: scale(2, 2);
-        }
-
-
-        .fa-circle {
-            transform: scale(3, 3);
-            color: rgb(180, 179, 179);
-        }
-
-
-        .process-icon {
-            position: absolute;
-            color: white;
-            transform: scale(1.5, 1.5);
-        }
-
-
-        #order-tracker-container {
-            display: block;
-            max-width: 800px;
-            margin: 10% auto;
-        }
-
-        #order-tracker {
-            display: flex;
-        }
-
-        .step {
-            display: inline-flex;
-            width: 25%;
-        }
-
-        .step5 {
-            width: 0%;
-        }
-
-        .bar-background {
-            background-color: rgb(180, 179, 179);
-            width: 100%;
-            margin-top: -30px;
-            margin-bottom: -20px;
-        }
-
-        .progressed {
-            background-color: #4ec425;
-        }
-
-        .progressbar {
-            height: 10px;
-        }
-
-        .progress0 {
-            width: 5%;
-        }
-
-        .progress1 {
-            width: 30%;
-        }
-
-        .progress2 {
-            width: 55%;
-        }
-
-        .progress3 {
-            width: 75%;
-        }
-
-        .progress4 {
-            width: 100%;
-        }
-    </style>
-
-
-</body>
+    section.faq-section ul {
+        padding-left: 15px;
+    }
+</style>
 
 <script>
+    require(['jquery', 'domReady!'], function ($) {
+        // Order date stored in its variable
+        var orderDate = new Date($(".order-date").text());
+        // Order status stored
+        var orderStatus = $(".order-status").text();
+        // now variable used to know present time
+        var now = new Date();
+        // For calculating the time difference
+        var timeDifference = now.getTime() - orderDate.getTime();
+        // Calculates how many days passed since order is processed
+        var passedDays = Math.floor(timeDifference / (1000 * 3600 * 24));
 
-var OrderTextContent =  {
-    step1 : "Text about step 1 ",
-    step2: "Text about step 2",
-    step3: "Text about step 3",
-    step4: "Text about step 4",
-    step5: "Text about step 5"
-    };
+        // Faq elements to be added into the user dashboard
+        let faqQuestions = `<section class="faq-section">
+                                <hr>
+                                <ul class="questions-area">
+                                    <li> <a href="https://helpdesk.junglegym.com/help/en-gb/10-delivery/188-what-can-i-expect-from-the-delivery-complete-frame-accessories">
+                                        What can I expect from the delivery? (Standard Climbing Frames & Accessories)</a>
+                                    </li>
+                                    <li> <a href="https://helpdesk.junglegym.com/help/en-gb/10-delivery/189-what-can-i-expect-from-the-delivery-design-your-own-products">
+                                        What can I expect from the delivery? (Design Your Own products)</a> 
+                                    </li>
+                                    <li> <a href="https://helpdesk.junglegym.com/help/en-gb/3-assembly/196-will-assembly-service-be-on-the-same-day-as-the-delivery">
+                                        Will assembly service be on the same day as the delivery?</a> 
+                                    </li>
+                                    <li> <a href="https://helpdesk.junglegym.com/help/en-gb/3-assembly/89-where-can-i-see-your-assembly-instructions">
+                                        Where can I see your assembly instructions?</a>
+                                    </li>
+                                    <li> <a href="https://helpdesk.junglegym.com/help/en-gb/35-timber/169-do-i-need-to-treat-the-timber">
+                                        Do I need to treat the timber?</a>
+                                    </li>
+                                    <li> <a href="https://helpdesk.junglegym.com/help/en-gb/11-cancellation-return/47-how-do-i-cancel-my-order">
+                                        How do I cancel my order?</a>
+                                    </li>
+                                </ul>
+                            </section>`;
+        // Faq questions placed into the right spot
+        $(".order-details-items.ordered").append(faqQuestions);
 
-var orderDate = new Date("8 Nov, 2019");
-var now = new Date();
-var timeDifference = now.getTime() - orderDate.getTime() ;
-var passedDays = Math.floor(timeDifference / (1000 * 3600 * 24));
+        // Html element for order process steps to be added into the user dashboard
+        let orderStepsList = `<section class="order-steps-section">
+                                <h3>Next steps:</h3>
+                                <ul>
+                                    <li class="o-step o-step-1">
+                                        <span>1</span>
+                                        Order placed.
+                                    </li>
+                                    <li class="o-step o-step-2">
+                                        <span>2</span>
+                                        Order received.
+                                    </li>
+                                    <li class="o-step o-step-3">
+                                        <span>3</span>
+                                        Order is processed and planned for production.
+                                    </li>
+                                    <li class="o-step o-step-4">
+                                        <span>4</span>
+                                        Order is in production.
+                                    </li>
+                                    <li class="o-step o-step-5">
+                                        <span>5</span>
+                                        Order is transferred to the transporter.
+                                    </li>
+                                    <li class="o-step o-step-6">
+                                        <span>6</span>
+                                        Transporter contacts you via phone, email or SMS to make a delivery appointment.
+                                    </li>
+                                    <li class="o-step o-step-7">
+                                        <span>7</span>
+                                        Order is delivered. It will be unloaded next to the lorry on the pavement. Please check the order for any transport damage and sign for receipt.
+                                    </li>
+                                </ul>
+                            </section>`;
 
-console.log(passedDays + " days passed since placed order");
+        // Order steps added into the right place
+        $(orderStepsList).insertAfter($('.page-title-wrapper'));
 
-if (passedDays < 1) {
-    $(".step1").addClass("done active");
-    $(".progressed").addClass("progress0");
-    $("#current-process-text article").text(OrderTextContent.step1);
-} else if (passedDays >= 1 && passedDays <= 3){
-    $(".step2").addClass("done active");
-    $(".step1").addClass("done");
-    $(".progressed").addClass("progress1");
-    $("#current-process-text article").text(OrderTextContent.step2);
-} else if (passedDays > 3 && passedDays <= 8){
-    $(".step3").addClass("done active");
-    $(".step2").addClass("done");
-    $(".step1").addClass("done");
-    $(".progressed").addClass("progress2");
-    $("#current-process-text article").text(OrderTextContent.step3);
-} else if (passedDays > 8 && passedDays <=10){    
-    $(".step4").addClass("done active");
-    $(".step3").addClass("done");
-    $(".step2").addClass("done");
-    $(".step1").addClass("done");
-    $(".progressed").addClass("progress3");
-    $("#current-process-text article").text(OrderTextContent.step4);
-} else {
-    $(".step").addClass("done");
-    $(".step5").addClass("active");
-    $(".progressed").addClass("progress4");
-    $("#current-process-text article").text(OrderTextContent.step5);
-}
-
-
-
-
+        // Following logic highlights the corresponding order step
+        // For an order status 'Pending' or 'Payment Pend'ng
+        if (orderStatus == "Pending" || orderStatus == "Pending Payment") {
+            $('.o-step-1 span').html(`<i class="fas fa-check-circle"></i>`);
+            $('.o-step-1 span').css({ 'background': 'white', 'font-weight': '900', 'font-size': '18px' });
+            $('.o-step-1').css({ 'font-weight': '700' });
+        // For an order status 'Processing'
+        } else if (orderStatus == "Processing") {
+            $('.o-step-1 span, .o-step-2 span').html(`<i class="fas fa-check-circle"></i>`);
+            $('.o-step-1 span, .o-step-2 span').css({ 'background': 'white', 'font-weight': '900', 'font-size': '18px' });
+            $('.o-step-1, .o-step-2').css({ 'font-weight': '700' });
+        // For 'In productiong' or 'Preparing My Jungle Gym' order statusses and less than 5 days passed since the order date or the order status is 'Delayed'
+        } else if (((orderStatus == "In production" || orderStatus == "Preparing My Jungle Gym") && passedDays < 5) || orderStatus == "Delayed") {
+            $('.o-step-1 span, .o-step-2 span, .o-step-3 span').html(`<i class="fas fa-check-circle"></i>`);
+            $('.o-step-1 span, .o-step-2 span, .o-step-3 span').css({ 'background': 'white', 'font-weight': '900', 'font-size': '18px' });
+            $('.o-step-1, .o-step-2, .o-step-3').css({ 'font-weight': '700' });
+        // For order status 'In production' or 'Preparing my Jungle gym' and 5 or more days passed since the order placed
+        } else if ((orderStatus == "In production" || orderStatus == "Preparing My Jungle Gym") && passedDays >= 5) {
+            $('.o-step-1 span, .o-step-2 span, .o-step-3 span, .o-step-4 span').html(`<i class="fas fa-check-circle"></i>`);
+            $('.o-step-1 span, .o-step-2 span, .o-step-3 span, .o-step-4 span').css({ 'background': 'white', 'font-weight': '900', 'font-size': '18px' });
+            $('.o-step-1, .o-step-2, .o-step-3, .o-step-4').css({ 'font-weight': '700' });
+        // For order status 'Complete' and 1 day or less has passed since the order date
+        } else if (orderStatus == "Complete" && (passedDays <= 1)) {
+            $('.o-step-1 span, .o-step-2 span, .o-step-3 span, .o-step-4 span, .o-step-5 span').html(`<i class="fas fa-check-circle"></i>`);
+            $('.o-step-1 span, .o-step-2 span, .o-step-3 span, .o-step-4 span, .o-step-5 span').css({ 'background': 'white', 'font-weight': '900', 'font-size': '18px' });
+            $('.o-step-1, .o-step-2, .o-step-3, .o-step-4, .o-step-5').css({ 'font-weight': '700' });
+        // If the order status is 'Complete' and more than 1 day passed since the order date
+        } else if (orderStatus == "Complete" && (passedDays > 1)) {
+            $('.o-step span').html(`<i class="fas fa-check-circle"></i>`);
+            $('.o-step span').css({ 'background': 'white', 'font-weight': '900', 'font-size': '18px' });
+            $('.o-step-1, .o-step-2, .o-step-3, .o-step-4, .o-step-5, .o-step-6').css({ 'font-weight': '700' });
+        }
+        // For any other condition
+        else {
+            $(".order-steps-section").hide();
+        }
+    });
 </script>
-
-</html>
+<!-- Order Tracker Script EN Block end -->
